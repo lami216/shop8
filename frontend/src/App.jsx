@@ -47,7 +47,7 @@ function App() {
 
         return (
                 <div className='relative min-h-screen bg-payzone-navy text-payzone-white'>
-                        <div className='relative z-50 pt-20'>
+                        <div className='relative z-50 pt-16'>
                                 <Navbar />
                                 <Routes>
                                         <Route path='/' element={<HomePage />} />
