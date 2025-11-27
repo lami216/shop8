@@ -278,7 +278,7 @@ const AdminCoupons = () => {
                 if (loading) {
                         return (
                                 <tr>
-                                        <td colSpan={6} className='px-4 py-6 text-center text-white'>
+                                        <td colSpan={6} className='px-4 py-6 text-center text-[#0B163A]'>
                                                 <div className='flex items-center justify-center gap-2'>
                                                         <Loader2 className='h-5 w-5 animate-spin text-payzone-gold' />
                                                         {t("common.loading")}
@@ -291,7 +291,7 @@ const AdminCoupons = () => {
                 if (coupons.length === 0) {
                         return (
                                 <tr>
-                                        <td colSpan={6} className='px-4 py-6 text-center text-white/70'>
+                                        <td colSpan={6} className='px-4 py-6 text-center text-[#0B163A]/80'>
                                                 {t("admin.coupons.empty")}
                                         </td>
                                 </tr>
@@ -350,7 +350,7 @@ const AdminCoupons = () => {
                                                 <button
                                                         type='button'
                                                         onClick={() => handleToggleActive(coupon)}
-                                                        className='inline-flex items-center gap-1 rounded-md bg-white/10 px-3 py-1 text-sm text-white transition hover:bg-white/20 disabled:opacity-60'
+                                                        className='inline-flex items-center gap-1 rounded-md bg-white/10 px-3 py-1 text-sm text-[#0B163A] transition hover:bg-white/20 disabled:opacity-60'
                                                         disabled={mutationLoading}
                                                 >
                                                         {coupon.isActive ? (
@@ -372,11 +372,13 @@ const AdminCoupons = () => {
         };
 
         return (
-                <div className='rounded-xl bg-white/10 p-6 shadow-lg backdrop-blur'>
+                <div className='rounded-xl bg-white/10 p-6 text-[#0B163A] shadow-lg backdrop-blur'>
                         <div className='mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
                                 <div>
-                                        <h2 className='text-2xl font-semibold text-white'>{t("admin.coupons.title")}</h2>
-                                        <p className='text-sm text-white/70'>{t("admin.coupons.subtitle")}</p>
+                                        <h2 className='text-2xl font-semibold text-[#0B163A]'>
+                                                {t("admin.coupons.title")}
+                                        </h2>
+                                        <p className='text-sm text-[#0B163A]/80'>{t("admin.coupons.subtitle")}</p>
                                 </div>
                                 <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
                                         <div className='flex items-center rounded-lg bg-white/10 px-3 py-2 shadow-inner'>
@@ -386,14 +388,14 @@ const AdminCoupons = () => {
                                                         value={searchTerm}
                                                         onChange={(event) => setSearchTerm(event.target.value)}
                                                         placeholder={t("admin.coupons.searchPlaceholder")}
-                                                        className='w-48 bg-transparent text-sm text-white placeholder-white/60 focus:outline-none'
+                                                        className='w-48 bg-transparent text-sm text-[#0B163A] placeholder-[#0B163A]/60 focus:outline-none'
                                                 />
                                         </div>
                                         <div className='flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 shadow-inner'>
                                                 <select
                                                         value={localSortBy}
                                                         onChange={(event) => setLocalSortBy(event.target.value)}
-                                                        className='bg-transparent text-sm text-white focus:outline-none'
+                                                        className='bg-transparent text-sm text-[#0B163A] focus:outline-none'
                                                 >
                                                         {SORT_OPTIONS.map((option) => (
                                                                 <option key={option.value} value={option.value} className='text-black'>
@@ -416,7 +418,7 @@ const AdminCoupons = () => {
                                         <button
                                                 type='button'
                                                 onClick={openCreateForm}
-                                                className='flex items-center justify-center gap-2 rounded-lg bg-payzone-gold px-4 py-2 font-semibold text-payzone-navy shadow transition hover:bg-yellow-400'
+                                                className='flex items-center justify-center gap-2 rounded-lg bg-payzone-gold px-4 py-2 font-semibold text-[#0B163A] shadow transition hover:bg-yellow-400'
                                         >
                                                 <PlusCircle className='h-5 w-5' />
                                                 {t("admin.coupons.addButton")}
@@ -425,8 +427,8 @@ const AdminCoupons = () => {
                         </div>
 
                         <div className='overflow-x-auto rounded-lg bg-white/5 shadow-inner'>
-                                <table className='min-w-full divide-y divide-white/10 text-left text-sm text-white'>
-                                        <thead className='bg-white/10 text-xs uppercase tracking-wider text-white/80'>
+                                <table className='min-w-full divide-y divide-white/10 text-left text-sm text-[#0B163A]'>
+                                        <thead className='bg-white/10 text-xs uppercase tracking-wider text-[#0B163A]'>
                                                 <tr>
                                                         <th className='px-4 py-3'>{t("admin.coupons.table.code")}</th>
                                                         <th className='px-4 py-3'>{t("admin.coupons.table.discount")}</th>
@@ -441,7 +443,7 @@ const AdminCoupons = () => {
                                 </table>
                         </div>
 
-                        <div className='mt-4 flex flex-col items-center justify-between gap-3 text-sm text-white/80 sm:flex-row'>
+                        <div className='mt-4 flex flex-col items-center justify-between gap-3 text-sm text-[#0B163A]/90 sm:flex-row'>
                                 <div>
                                         {t("admin.coupons.pagination.summary", {
                                                 page: page.toLocaleString("en-US"),
@@ -454,18 +456,18 @@ const AdminCoupons = () => {
                                                 type='button'
                                                 onClick={() => handlePageChange(Math.max(1, page - 1))}
                                                 disabled={page <= 1 || loading}
-                                                className='rounded-md bg-white/10 px-3 py-1 text-white transition hover:bg-white/20 disabled:opacity-60'
+                                                className='rounded-md bg-white/10 px-3 py-1 text-[#0B163A] transition hover:bg-white/20 disabled:opacity-60'
                                         >
                                                 {t("admin.coupons.pagination.prev")}
                                         </button>
-                                        <span className='rounded-md bg-white/10 px-3 py-1 text-white'>
+                                        <span className='rounded-md bg-white/10 px-3 py-1 text-[#0B163A]'>
                                                 {page.toLocaleString("en-US")}
                                         </span>
                                         <button
                                                 type='button'
                                                 onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
                                                 disabled={page >= totalPages || loading}
-                                                className='rounded-md bg-white/10 px-3 py-1 text-white transition hover:bg-white/20 disabled:opacity-60'
+                                                className='rounded-md bg-white/10 px-3 py-1 text-[#0B163A] transition hover:bg-white/20 disabled:opacity-60'
                                         >
                                                 {t("admin.coupons.pagination.next")}
                                         </button>
@@ -474,15 +476,15 @@ const AdminCoupons = () => {
 
                         {isFormOpen && (
                                 <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4'>
-                                        <div className='w-full max-w-md rounded-2xl bg-payzone-navy p-6 shadow-2xl'>
+                                        <div className='w-full max-w-md rounded-2xl bg-payzone-navy p-6 text-[#0B163A] shadow-2xl'>
                                                 <div className='mb-4 flex items-start justify-between'>
                                                         <div>
-                                                                <h3 className='text-xl font-semibold text-white'>
+                                                                <h3 className='text-xl font-semibold text-[#0B163A]'>
                                                                         {editingCoupon
                                                                                 ? t("admin.coupons.form.editTitle", { code: editingCoupon.code })
                                                                                 : t("admin.coupons.form.createTitle")}
                                                                 </h3>
-                                                                <p className='text-sm text-white/70'>
+                                                                <p className='text-sm text-[#0B163A]/80'>
                                                                         {editingCoupon
                                                                                 ? t("admin.coupons.form.editSubtitle")
                                                                                 : t("admin.coupons.form.createSubtitle")}
@@ -491,7 +493,7 @@ const AdminCoupons = () => {
                                                         <button
                                                                 type='button'
                                                                 onClick={closeForm}
-                                                                className='rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20'
+                                                                className='rounded-full bg-white/10 p-2 text-[#0B163A] transition hover:bg-white/20'
                                                                 disabled={mutationLoading}
                                                                 aria-label={t("common.actions.close")}
                                                         >
@@ -501,7 +503,7 @@ const AdminCoupons = () => {
                                                 <form onSubmit={handleSubmit} className='space-y-4'>
                                                         <div>
                                                                 <div className='mb-1 flex items-center justify-between gap-3'>
-                                                                        <label className='block text-sm font-medium text-white'>
+                                                                        <label className='block text-sm font-medium text-[#0B163A]'>
                                                                                 {isBulkMode
                                                                                         ? t("admin.coupons.form.bulkCodes")
                                                                                         : t("admin.coupons.form.code")}
@@ -509,7 +511,7 @@ const AdminCoupons = () => {
                                                                         <button
                                                                                 type='button'
                                                                                 onClick={handleBulkToggle}
-                                                                                className='rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white transition hover:bg-white/20 disabled:opacity-60'
+                                                                                className='rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-[#0B163A] transition hover:bg-white/20 disabled:opacity-60'
                                                                                 disabled={Boolean(editingCoupon) || mutationLoading}
                                                                         >
                                                                                 {isBulkMode
@@ -525,9 +527,9 @@ const AdminCoupons = () => {
                                                                                         onChange={(event) =>
                                                                                                 handleFieldChange("bulkCodes", event.target.value)
                                                                                         }
-                                                                                        className='w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white focus:border-payzone-gold focus:outline-none'
+                                                                                        className='w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-[#0B163A] placeholder-[#0B163A]/60 focus:border-payzone-gold focus:outline-none'
                                                                                 />
-                                                                                <p className='mt-1 text-xs text-white/60'>
+                                                                                <p className='mt-1 text-xs text-[#0B163A]/70'>
                                                                                         {t("admin.coupons.form.bulkHint")}
                                                                                 </p>
                                                                                 {formErrors.bulkCodes && (
@@ -544,7 +546,7 @@ const AdminCoupons = () => {
                                                                                         onChange={(event) =>
                                                                                                 handleFieldChange("code", event.target.value)
                                                                                         }
-                                                                                        className='w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white focus:border-payzone-gold focus:outline-none'
+                                                                                        className='w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-[#0B163A] placeholder-[#0B163A]/60 focus:border-payzone-gold focus:outline-none'
                                                                                         maxLength={32}
                                                                                         required
                                                                                 />
@@ -557,7 +559,7 @@ const AdminCoupons = () => {
                                                                 )}
                                                         </div>
                                                         <div>
-                                                                <label className='mb-1 block text-sm font-medium text-white'>
+                                                                <label className='mb-1 block text-sm font-medium text-[#0B163A]'>
                                                                         {t("admin.coupons.form.discountPercentage")}
                                                                 </label>
                                                                 <input
@@ -567,7 +569,7 @@ const AdminCoupons = () => {
                                                                         step='1'
                                                                         value={formValues.discountPercentage}
                                                                         onChange={(event) => handleFieldChange("discountPercentage", event.target.value)}
-                                                                        className='w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white focus:border-payzone-gold focus:outline-none'
+                                                                        className='w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-[#0B163A] focus:border-payzone-gold focus:outline-none'
                                                                         required
                                                                 />
                                                                 {formErrors.discountPercentage && (
@@ -577,14 +579,14 @@ const AdminCoupons = () => {
                                                                 )}
                                                         </div>
                                                         <div>
-                                                                <label className='mb-1 block text-sm font-medium text-white'>
+                                                                <label className='mb-1 block text-sm font-medium text-[#0B163A]'>
                                                                         {t("admin.coupons.form.expiresAt")}
                                                                 </label>
                                                                 <input
                                                                         type='datetime-local'
                                                                         value={formValues.expiresAt}
                                                                         onChange={(event) => handleFieldChange("expiresAt", event.target.value)}
-                                                                        className='w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white focus:border-payzone-gold focus:outline-none'
+                                                                        className='w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-[#0B163A] focus:border-payzone-gold focus:outline-none'
                                                                         required
                                                                 />
                                                                 {formErrors.expiresAt && (
@@ -592,7 +594,7 @@ const AdminCoupons = () => {
                                                                 )}
                                                         </div>
                                                         <div className='flex items-center justify-between'>
-                                                                <span className='text-sm text-white'>
+                                                                <span className='text-sm text-[#0B163A]'>
                                                                         {t("admin.coupons.form.isActive")}
                                                                 </span>
                                                                 <button
@@ -624,7 +626,7 @@ const AdminCoupons = () => {
                                                                 <button
                                                                         type='button'
                                                                         onClick={closeForm}
-                                                                        className='rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20 disabled:opacity-60'
+                                                                        className='rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-[#0B163A] transition hover:bg-white/20 disabled:opacity-60'
                                                                         disabled={mutationLoading}
                                                                 >
                                                                         {t("common.actions.cancel")}
