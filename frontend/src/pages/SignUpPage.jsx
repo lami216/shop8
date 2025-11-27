@@ -46,7 +46,7 @@ const SignUpPage = () => {
         return (
                 <div className='flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
                         <motion.div
-                                className='sm:mx-auto sm:w-full sm:max-w-md'
+                                className='order-2 sm:order-1 sm:mx-auto sm:w-full sm:max-w-md'
                                 initial={{ opacity: 0, y: -20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8 }}
@@ -57,7 +57,7 @@ const SignUpPage = () => {
                         </motion.div>
 
                         <motion.div
-                                className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'
+                                className='order-1 mt-8 sm:order-2 sm:mx-auto sm:w-full sm:max-w-md'
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
