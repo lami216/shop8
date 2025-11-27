@@ -104,14 +104,14 @@ const PurchaseSuccessPage = () => {
 
         if (isProcessing)
                 return (
-                        <div className='flex h-screen items-center justify-center text-white'>
+                        <div className='flex h-screen items-center justify-center text-payzone-white'>
                                 {t("purchase.success.processing")}
                         </div>
                 );
 
         if (error)
                 return (
-                        <div className='flex h-screen items-center justify-center text-white'>
+                        <div className='flex h-screen items-center justify-center text-payzone-white'>
                                 {t("purchase.success.error", { message: error })}
                         </div>
                 );
