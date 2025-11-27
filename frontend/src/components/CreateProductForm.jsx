@@ -407,7 +407,7 @@ const CreateProductForm = () => {
                                         <button
                                                 type='button'
                                                 onClick={resetForm}
-                                                className='inline-flex items-center gap-2 rounded-md border border-payzone-indigo/40 px-3 py-1 text-sm text-white transition hover:border-payzone-gold'
+                                                className='inline-flex items-center gap-2 rounded-md border border-payzone-indigo/40 px-3 py-1 text-sm text-payzone-white transition hover:border-payzone-gold'
                                         >
                                                 <X className='h-4 w-4' />
                                                 {t("common.actions.cancel")}
@@ -417,7 +417,7 @@ const CreateProductForm = () => {
 
                         <form onSubmit={handleSubmit} className='space-y-4'>
                                 <div>
-                                        <label htmlFor='name' className='block text-sm font-medium text-white/80'>
+                                        <label htmlFor='name' className='block text-sm font-medium text-payzone-white/80'>
                                                 {t("admin.createProduct.fields.name")}
                                         </label>
                                         <input
@@ -426,13 +426,13 @@ const CreateProductForm = () => {
                                                 name='name'
                                                 value={formState.name}
                                                 onChange={(event) => setFormState({ ...formState, name: event.target.value })}
-                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-payzone-white placeholder:text-payzone-white/50 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                 required
                                         />
                                 </div>
 
                                 <div>
-                                        <label htmlFor='description' className='block text-sm font-medium text-white/80'>
+                                        <label htmlFor='description' className='block text-sm font-medium text-payzone-white/80'>
                                                 {t("admin.createProduct.fields.description")}
                                         </label>
                                         <textarea
@@ -443,13 +443,13 @@ const CreateProductForm = () => {
                                                         setFormState({ ...formState, description: event.target.value })
                                                 }
                                                 rows='3'
-                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-payzone-white placeholder:text-payzone-white/50 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                 required
                                         />
                                 </div>
 
                                 <div>
-                                        <label htmlFor='price' className='block text-sm font-medium text-white/80'>
+                                        <label htmlFor='price' className='block text-sm font-medium text-payzone-white/80'>
                                                 {t("admin.createProduct.fields.price")}
                                         </label>
                                         <input
@@ -459,7 +459,7 @@ const CreateProductForm = () => {
                                                 value={formState.price}
                                                 onChange={(event) => setFormState({ ...formState, price: event.target.value })}
                                                 step='0.01'
-                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-payzone-white placeholder:text-payzone-white/50 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                 required
                                         />
                                 </div>
@@ -469,11 +469,11 @@ const CreateProductForm = () => {
                                                 <div>
                                                         <label
                                                                 htmlFor='discountToggleSwitch'
-                                                                className='text-sm font-medium text-white/80'
+                                                                className='text-sm font-medium text-payzone-white/80'
                                                         >
                                                                 {t("admin.createProduct.fields.discountToggle")}
                                                         </label>
-                                                        <p className='mt-1 text-xs text-white/60'>
+                                                        <p className='mt-1 text-xs text-payzone-white/70'>
                                                                 {t("admin.createProduct.fields.discountHint")}
                                                         </p>
                                                 </div>
@@ -494,7 +494,7 @@ const CreateProductForm = () => {
                                                 <div className='mt-4 space-y-2'>
                                                         <label
                                                                 htmlFor='discountPercentage'
-                                                                className='block text-sm font-medium text-white/80'
+                                                                className='block text-sm font-medium text-payzone-white/80'
                                                         >
                                                                 {t("admin.createProduct.fields.discountPercentage")}
                                                         </label>
@@ -506,7 +506,7 @@ const CreateProductForm = () => {
                                                                 step='0.01'
                                                                 value={formState.discountPercentage}
                                                                 onChange={handleDiscountPercentageChange}
-                                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-payzone-white placeholder:text-payzone-white/50 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                                 placeholder={t("admin.createProduct.placeholders.discountPercentage")}
                                                         />
                                                         {discountedPreviewPrice !== null && (
@@ -523,7 +523,7 @@ const CreateProductForm = () => {
                                 </div>
 
                                 <div>
-                                        <label htmlFor='category' className='block text-sm font-medium text-white/80'>
+                                        <label htmlFor='category' className='block text-sm font-medium text-payzone-white/80'>
                                                 {t("admin.createProduct.fields.category")}
                                         </label>
                                         <select
@@ -533,7 +533,7 @@ const CreateProductForm = () => {
                                                 onChange={(event) =>
                                                         setFormState({ ...formState, category: event.target.value })
                                                 }
-                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-payzone-white focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                 required
                                         >
                                                 <option value=''>
@@ -559,7 +559,7 @@ const CreateProductForm = () => {
                                         />
                                         <label
                                                 htmlFor='images'
-                                                className={`inline-flex items-center gap-2 rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-sm font-medium text-white transition duration-300 focus:outline-none focus:ring-2 focus:ring-payzone-indigo ${
+                                                className={`inline-flex items-center gap-2 rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-sm font-medium text-payzone-white transition duration-300 focus:outline-none focus:ring-2 focus:ring-payzone-indigo ${
                                                         totalImages >= MAX_IMAGES
                                                                 ? "cursor-not-allowed opacity-60"
                                                                 : "cursor-pointer hover:border-payzone-gold hover:bg-payzone-navy/80"
@@ -569,7 +569,7 @@ const CreateProductForm = () => {
                                                 <Upload className='h-5 w-5' />
                                                 {t("admin.createProduct.buttons.uploadImages")}
                                         </label>
-                                        <span className='mr-3 text-sm text-white/60'>
+                                        <span className='mr-3 text-sm text-payzone-white/70'>
                                                 {totalImages} / {MAX_IMAGES} {t("admin.createProduct.fields.images")}
                                         </span>
                                 </div>

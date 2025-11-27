@@ -50,7 +50,7 @@ export default function SocialLinks() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 bg-white/10 text-white transition ${className}`}
+            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 bg-white/10 text-payzone-white transition ${className}`}
             aria-label={label}
           >
             <span className="inline-flex"><IconComponent /></span>

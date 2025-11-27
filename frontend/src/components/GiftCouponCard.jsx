@@ -50,18 +50,18 @@ const GiftCouponCard = () => {
                 >
                         <div className='space-y-4'>
                                 <div>
-                                        <label htmlFor='voucher' className='mb-2 block text-sm font-medium text-white/80'>
-                                                {t("cart.coupon.label")}
-                                        </label>
-                                        <input
-                                                type='text'
-                                                id='voucher'
-                                                className='block w-full rounded-lg border border-payzone-indigo/40 bg-payzone-navy/60 p-2.5 text-sm text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
-                                                placeholder={t("cart.coupon.placeholder")}
-                                                value={userInputCode}
-                                                onChange={(e) => setUserInputCode(e.target.value)}
-                                                required
-                                        />
+                                <label htmlFor='voucher' className='mb-2 block text-sm font-medium text-payzone-white/80'>
+                                        {t("cart.coupon.label")}
+                                </label>
+                                <input
+                                        type='text'
+                                        id='voucher'
+                                        className='block w-full rounded-lg border border-payzone-indigo/40 bg-payzone-navy/60 p-2.5 text-sm text-payzone-white placeholder:text-payzone-white/50 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                        placeholder={t("cart.coupon.placeholder")}
+                                        value={userInputCode}
+                                        onChange={(e) => setUserInputCode(e.target.value)}
+                                        required
+                                />
                                 </div>
 
                                 <motion.button
@@ -80,7 +80,7 @@ const GiftCouponCard = () => {
                                                 {t("cart.coupon.appliedTitle")}
                                         </h3>
 
-                                        <p className='mt-2 text-sm text-white/70'>
+                                        <p className='mt-2 text-sm text-payzone-white/80'>
                                                 {t("cart.coupon.discount", {
                                                         code: coupon.code,
                                                         discount: coupon.discountPercentage,
