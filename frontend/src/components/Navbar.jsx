@@ -30,13 +30,13 @@ const Navbar = () => {
 
         return (
                 <header className='fixed top-0 right-0 z-40 w-full border-b border-payzone-indigo/30 bg-magic-navy/95 text-white backdrop-blur-xl shadow-lg transition-all duration-300'>
-                        <div className='container mx-auto px-4 py-3'>
+                        <div className='container mx-auto px-4 py-2'>
                                 <div className='flex flex-wrap items-center justify-between gap-4'>
                                         <Link to='/' className='flex items-center gap-3 text-white'>
                                                 <img
                                                         src='/magic-logo.png'
                                                         alt='Magic Store'
-                                                        className='h-12 w-12 object-contain drop-shadow-[0_4px_12px_rgba(11,47,99,0.35)]'
+                                                        className='block h-auto w-auto max-h-12 object-contain drop-shadow-[0_4px_12px_rgba(11,47,99,0.35)]'
                                                 />
                                                 <span className='text-2xl font-semibold uppercase tracking-wide'>{t("common.appName")}</span>
                                         </Link>
