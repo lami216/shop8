@@ -20,15 +20,15 @@ const HomePage = () => {
         }, [fetchCategories]);
 
         return (
-                <div className='relative min-h-screen overflow-hidden text-payzone-white'>
+                <div className='relative min-h-screen overflow-hidden bg-gradient-to-b from-payzone-navy via-white to-payzone-navy text-magic-navy'>
                         <div className='relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8'>
                                 <h1 className='mb-4 text-center text-5xl font-bold sm:text-6xl'>
-                                        <span className='block text-white'>{t("home.titleLine1")}</span>
-                                        <span className='bg-gradient-to-r from-payzone-gold via-payzone-gold/80 to-payzone-indigo bg-clip-text text-transparent'>
+                                        <span className='block text-magic-navy'>{t("home.titleLine1")}</span>
+                                        <span className='bg-gradient-to-r from-payzone-gold via-payzone-indigo to-payzone-indigo/80 bg-clip-text text-transparent'>
                                                 {t("home.titleHighlight")}
                                         </span>
                                 </h1>
-                                <p className='mb-12 text-center text-lg text-white/70'>
+                                <p className='mb-12 text-center text-lg text-magic-navy/70'>
                                         {t("home.subtitle")}
                                 </p>
 
@@ -36,7 +36,7 @@ const HomePage = () => {
 
                                 <div className='grid grid-cols-2 gap-4 lg:grid-cols-3'>
                                         {categories.length === 0 && !categoriesLoading && (
-                                                <div className='col-span-full text-center text-white/70'>
+                                                <div className='col-span-full text-center text-magic-navy/70'>
                                                         {t("categories.manager.list.empty")}
                                                 </div>
                                         )}
