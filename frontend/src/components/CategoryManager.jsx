@@ -3,6 +3,7 @@ import { ImagePlus, Trash2, Edit3, X, Save } from "lucide-react";
 import toast from "react-hot-toast";
 import useTranslation from "../hooks/useTranslation";
 import { useCategoryStore } from "../stores/useCategoryStore";
+import { compressFilesToDataUrls } from "../lib/compressImage";
 
 const CategoryManager = () => {
         const {
@@ -50,21 +51,22 @@ const CategoryManager = () => {
                 });
         }, [selectedCategory, createEmptyForm]);
 
-        const handleImageChange = (event) => {
+        const handleImageChange = async (event) => {
                 const file = event.target.files?.[0];
                 if (!file) return;
 
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                        const result = typeof reader.result === "string" ? reader.result : "";
+                try {
+                        const [compressedImage] = await compressFilesToDataUrls([file]);
                         setFormState((previous) => ({
                                 ...previous,
-                                image: result,
-                                imagePreview: result,
+                                image: compressedImage,
+                                imagePreview: compressedImage,
                                 imageChanged: true,
                         }));
-                };
-                reader.readAsDataURL(file);
+                } catch (error) {
+                        console.error("Category image processing failed", error);
+                        toast.error("حدث خطأ أثناء معالجة الصورة");
+                }
                 event.target.value = "";
         };
 
