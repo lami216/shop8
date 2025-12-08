@@ -1,24 +1,31 @@
 import imageCompression from "browser-image-compression";
 
-const MAX_SIZE_KB = 1400;
-const MIN_SIZE_KB = 200;
+const MAX_SIZE_MB = 2;
+const MIN_QUALITY = 0.5;
+const QUALITY_STEP = 0.1;
 const baseOptions = {
-        maxSizeMB: MAX_SIZE_KB / 1024,
+        maxSizeMB: MAX_SIZE_MB,
         initialQuality: 0.85,
         useWebWorker: true,
 };
 
-const getSizeInKB = (file) => file.size / 1024;
+const isWithinLimit = (file) => file.size / 1024 / 1024 <= MAX_SIZE_MB;
 
 const compressFile = async (file) => {
-        const sizeInKB = getSizeInKB(file);
-        if (sizeInKB <= MIN_SIZE_KB) {
+        if (isWithinLimit(file)) {
                 return file;
         }
 
-        const compressed = await imageCompression(file, baseOptions);
-        if (getSizeInKB(compressed) < MIN_SIZE_KB) {
-                return file;
+        let quality = baseOptions.initialQuality;
+        let compressed = file;
+
+        while (!isWithinLimit(compressed) && quality >= MIN_QUALITY) {
+                compressed = await imageCompression(compressed, {
+                        ...baseOptions,
+                        initialQuality: quality,
+                });
+
+                quality -= QUALITY_STEP;
         }
 
         return compressed;
