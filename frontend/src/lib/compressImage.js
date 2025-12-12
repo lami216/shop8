@@ -57,3 +57,47 @@ export const compressFilesToDataUrls = async (files) =>
                         return convertFileToDataUrl(processedFile);
                 })
         );
+
+const CATEGORY_MAX_ORIGINAL_MB = 3;
+const CATEGORY_TARGET_MB = 1;
+const CATEGORY_MIN_QUALITY = 0.4;
+const CATEGORY_QUALITY_STEP = 0.1;
+const CATEGORY_MAX_ATTEMPTS = 6;
+
+const getFileSizeInMB = (file) => file.size / 1024 / 1024;
+
+export const compressCategoryImageToDataUrl = async (file) => {
+        if (getFileSizeInMB(file) > CATEGORY_MAX_ORIGINAL_MB) {
+                const error = new Error("Category image exceeds 3MB");
+                error.code = "CATEGORY_IMAGE_TOO_LARGE";
+                throw error;
+        }
+
+        if (getFileSizeInMB(file) <= CATEGORY_TARGET_MB) {
+                return convertFileToDataUrl(file);
+        }
+
+        let quality = 0.9;
+
+        for (let attempt = 0; attempt < CATEGORY_MAX_ATTEMPTS; attempt += 1) {
+                const compressedCandidate = await imageCompression(file, {
+                        useWebWorker: true,
+                        maxSizeMB: CATEGORY_TARGET_MB,
+                        initialQuality: quality,
+                });
+
+                if (getFileSizeInMB(compressedCandidate) <= CATEGORY_TARGET_MB) {
+                        return convertFileToDataUrl(compressedCandidate);
+                }
+
+                if (quality <= CATEGORY_MIN_QUALITY) {
+                        break;
+                }
+
+                quality = Math.max(quality - CATEGORY_QUALITY_STEP, CATEGORY_MIN_QUALITY);
+        }
+
+        const error = new Error("Unable to compress category image below 1MB");
+        error.code = "CATEGORY_IMAGE_COMPRESSION_FAILED";
+        throw error;
+};
