@@ -65,14 +65,7 @@ const CategoryManager = () => {
                         }));
                 } catch (error) {
                         console.error("Category image processing failed", error);
-
-                        if (error?.code === "CATEGORY_IMAGE_TOO_LARGE") {
-                                toast.error("يجب ألا يتجاوز حجم الصورة الأصلية 3 ميجابايت");
-                        } else if (error?.code === "CATEGORY_IMAGE_COMPRESSION_FAILED") {
-                                toast.error("تعذر ضغط الصورة إلى أقل من 1 ميجابايت");
-                        } else {
-                                toast.error("حدث خطأ أثناء معالجة الصورة");
-                        }
+                        toast.error("تعذر ضغط الصورة، يرجى المحاولة بصورة أخرى");
                 }
                 event.target.value = "";
         };

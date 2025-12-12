@@ -1,54 +1,78 @@
 import imageCompression from "browser-image-compression";
 
-const MAX_SIZE_MB = 2;
-const MIN_QUALITY = 0.4;
+const DEFAULT_TARGET_MB = 2;
+const AGGRESSIVE_TARGET_MB = 1;
+const LARGE_IMAGE_THRESHOLD_MB = 8;
+const MIN_QUALITY = 0.35;
 const QUALITY_STEP = 0.1;
-const MAX_COMPRESSION_ATTEMPTS = 5;
-const baseOptions = {
-        maxSizeMB: MAX_SIZE_MB,
-        initialQuality: 0.85,
-        useWebWorker: true,
-};
+const MAX_ATTEMPTS = 8;
+const DIMENSION_REDUCTION_STEP = 0.9;
+const MIN_DIMENSION_SCALE = 0.6;
 
-const isWithinLimit = (file) => file.size / 1024 / 1024 <= MAX_SIZE_MB;
+const getFileSizeInMB = (file) => file.size / 1024 / 1024;
+
+const getImageDimensions = async (file) =>
+        new Promise((resolve, reject) => {
+                const url = URL.createObjectURL(file);
+                const image = new Image();
+
+                image.onload = () => {
+                        resolve({ width: image.width, height: image.height });
+                        URL.revokeObjectURL(url);
+                };
+
+                image.onerror = (error) => {
+                        URL.revokeObjectURL(url);
+                        reject(error);
+                };
+
+                image.src = url;
+        });
+
+const getTargetSize = (originalFile) => {
+        const originalSize = getFileSizeInMB(originalFile);
+        return originalSize >= LARGE_IMAGE_THRESHOLD_MB ? AGGRESSIVE_TARGET_MB : DEFAULT_TARGET_MB;
+};
 
 const compressFile = async (file) => {
-        if (isWithinLimit(file)) {
-                return file;
-        }
+        const targetSizeMB = getTargetSize(file);
+        const { width, height } = await getImageDimensions(file);
+        const maxDimension = Math.max(width, height);
 
-        let quality = baseOptions.initialQuality;
+        let quality = 0.9;
+        let dimensionScale = 1;
         let compressed = file;
-        let attempts = 0;
 
-        while (!isWithinLimit(compressed) && attempts < MAX_COMPRESSION_ATTEMPTS) {
+        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
                 compressed = await imageCompression(compressed, {
-                        ...baseOptions,
+                        useWebWorker: true,
+                        maxSizeMB: targetSizeMB,
                         initialQuality: quality,
+                        maxWidthOrHeight:
+                                dimensionScale < 1 ? Math.round(maxDimension * dimensionScale) : undefined,
                 });
 
-                quality = Math.max(quality - QUALITY_STEP, MIN_QUALITY);
-                attempts += 1;
+                if (getFileSizeInMB(compressed) <= targetSizeMB) {
+                        return compressed;
+                }
+
+                if (quality > MIN_QUALITY) {
+                        quality = Math.max(quality - QUALITY_STEP, MIN_QUALITY);
+                        continue;
+                }
+
+                if (dimensionScale > MIN_DIMENSION_SCALE) {
+                        dimensionScale = Math.max(dimensionScale * DIMENSION_REDUCTION_STEP, MIN_DIMENSION_SCALE);
+                        continue;
+                }
         }
 
-        if (!isWithinLimit(compressed)) {
-                compressed = await imageCompression(compressed, {
-                        ...baseOptions,
-                        maxSizeMB: MAX_SIZE_MB,
-                        maxWidthOrHeight: 1920,
-                        initialQuality: MIN_QUALITY,
-                });
-        }
-
-        if (!isWithinLimit(compressed)) {
-                throw new Error("Unable to compress image below 2MB");
-        }
-
-        return compressed;
+        const error = new Error("Unable to compress image below desired size");
+        error.code = "IMAGE_COMPRESSION_FAILED";
+        throw error;
 };
 
-const convertFileToDataUrl = async (file) =>
-        imageCompression.getDataUrlFromFile(file);
+const convertFileToDataUrl = async (file) => imageCompression.getDataUrlFromFile(file);
 
 export const compressFilesToDataUrls = async (files) =>
         Promise.all(
@@ -58,46 +82,11 @@ export const compressFilesToDataUrls = async (files) =>
                 })
         );
 
-const CATEGORY_MAX_ORIGINAL_MB = 3;
-const CATEGORY_TARGET_MB = 1;
-const CATEGORY_MIN_QUALITY = 0.4;
-const CATEGORY_QUALITY_STEP = 0.1;
-const CATEGORY_MAX_ATTEMPTS = 6;
-
-const getFileSizeInMB = (file) => file.size / 1024 / 1024;
-
 export const compressCategoryImageToDataUrl = async (file) => {
-        if (getFileSizeInMB(file) > CATEGORY_MAX_ORIGINAL_MB) {
-                const error = new Error("Category image exceeds 3MB");
-                error.code = "CATEGORY_IMAGE_TOO_LARGE";
-                throw error;
-        }
-
-        if (getFileSizeInMB(file) <= CATEGORY_TARGET_MB) {
+        if (getFileSizeInMB(file) <= getTargetSize(file)) {
                 return convertFileToDataUrl(file);
         }
 
-        let quality = 0.9;
-
-        for (let attempt = 0; attempt < CATEGORY_MAX_ATTEMPTS; attempt += 1) {
-                const compressedCandidate = await imageCompression(file, {
-                        useWebWorker: true,
-                        maxSizeMB: CATEGORY_TARGET_MB,
-                        initialQuality: quality,
-                });
-
-                if (getFileSizeInMB(compressedCandidate) <= CATEGORY_TARGET_MB) {
-                        return convertFileToDataUrl(compressedCandidate);
-                }
-
-                if (quality <= CATEGORY_MIN_QUALITY) {
-                        break;
-                }
-
-                quality = Math.max(quality - CATEGORY_QUALITY_STEP, CATEGORY_MIN_QUALITY);
-        }
-
-        const error = new Error("Unable to compress category image below 1MB");
-        error.code = "CATEGORY_IMAGE_COMPRESSION_FAILED";
-        throw error;
+        const compressed = await compressFile(file);
+        return convertFileToDataUrl(compressed);
 };
