@@ -3,7 +3,7 @@ import { ImagePlus, Trash2, Edit3, X, Save } from "lucide-react";
 import toast from "react-hot-toast";
 import useTranslation from "../hooks/useTranslation";
 import { useCategoryStore } from "../stores/useCategoryStore";
-import { compressFilesToDataUrls } from "../lib/compressImage";
+import { compressCategoryImageToDataUrl } from "../lib/compressImage";
 
 const CategoryManager = () => {
         const {
@@ -56,7 +56,7 @@ const CategoryManager = () => {
                 if (!file) return;
 
                 try {
-                        const [compressedImage] = await compressFilesToDataUrls([file]);
+                        const compressedImage = await compressCategoryImageToDataUrl(file);
                         setFormState((previous) => ({
                                 ...previous,
                                 image: compressedImage,
@@ -65,7 +65,14 @@ const CategoryManager = () => {
                         }));
                 } catch (error) {
                         console.error("Category image processing failed", error);
-                        toast.error("حدث خطأ أثناء معالجة الصورة");
+
+                        if (error?.code === "CATEGORY_IMAGE_TOO_LARGE") {
+                                toast.error("يجب ألا يتجاوز حجم الصورة الأصلية 3 ميجابايت");
+                        } else if (error?.code === "CATEGORY_IMAGE_COMPRESSION_FAILED") {
+                                toast.error("تعذر ضغط الصورة إلى أقل من 1 ميجابايت");
+                        } else {
+                                toast.error("حدث خطأ أثناء معالجة الصورة");
+                        }
                 }
                 event.target.value = "";
         };
