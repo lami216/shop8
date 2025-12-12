@@ -3,6 +3,7 @@ import imageCompression from "browser-image-compression";
 const DEFAULT_TARGET_MB = 2;
 const AGGRESSIVE_TARGET_MB = 1;
 const LARGE_IMAGE_THRESHOLD_MB = 8;
+const CATEGORY_MAX_SIZE_BYTES = 3 * 1024 * 1024;
 const MIN_QUALITY = 0.35;
 const QUALITY_STEP = 0.1;
 const MAX_ATTEMPTS = 8;
@@ -34,8 +35,9 @@ const getTargetSize = (originalFile) => {
         return originalSize >= LARGE_IMAGE_THRESHOLD_MB ? AGGRESSIVE_TARGET_MB : DEFAULT_TARGET_MB;
 };
 
-const compressFile = async (file) => {
-        const targetSizeMB = getTargetSize(file);
+const compressFile = async (file, { maxSizeBytes, targetSizeMB } = {}) => {
+        const targetSizeMBValue = targetSizeMB ?? getTargetSize(file);
+        const desiredMaxBytes = maxSizeBytes ?? targetSizeMBValue * 1024 * 1024;
         const { width, height } = await getImageDimensions(file);
         const maxDimension = Math.max(width, height);
 
@@ -46,13 +48,14 @@ const compressFile = async (file) => {
         for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
                 compressed = await imageCompression(compressed, {
                         useWebWorker: true,
-                        maxSizeMB: targetSizeMB,
+                        maxSizeMB: maxSizeBytes ? undefined : targetSizeMBValue,
+                        maxSizeBytes,
                         initialQuality: quality,
                         maxWidthOrHeight:
                                 dimensionScale < 1 ? Math.round(maxDimension * dimensionScale) : undefined,
                 });
 
-                if (getFileSizeInMB(compressed) <= targetSizeMB) {
+                if (compressed.size <= desiredMaxBytes) {
                         return compressed;
                 }
 
@@ -83,10 +86,10 @@ export const compressFilesToDataUrls = async (files) =>
         );
 
 export const compressCategoryImageToDataUrl = async (file) => {
-        if (getFileSizeInMB(file) <= getTargetSize(file)) {
+        if (file.size <= CATEGORY_MAX_SIZE_BYTES) {
                 return convertFileToDataUrl(file);
         }
 
-        const compressed = await compressFile(file);
+        const compressed = await compressFile(file, { maxSizeBytes: CATEGORY_MAX_SIZE_BYTES });
         return convertFileToDataUrl(compressed);
 };
