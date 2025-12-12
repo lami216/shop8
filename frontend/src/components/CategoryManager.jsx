@@ -26,6 +26,8 @@ const CategoryManager = () => {
                         image: "",
                         imagePreview: "",
                         imageChanged: false,
+                        originalImageSize: null,
+                        compressedImageSize: null,
                 }),
                 []
         );
@@ -48,6 +50,8 @@ const CategoryManager = () => {
                         image: "",
                         imagePreview: selectedCategory.imageUrl ?? "",
                         imageChanged: false,
+                        originalImageSize: null,
+                        compressedImageSize: null,
                 });
         }, [selectedCategory, createEmptyForm]);
 
@@ -56,16 +60,22 @@ const CategoryManager = () => {
                 if (!file) return;
 
                 try {
-                        const compressedImage = await compressCategoryImageToDataUrl(file);
+                        const { dataUrl, compressedSize, originalSize } = await compressCategoryImageToDataUrl(file);
                         setFormState((previous) => ({
                                 ...previous,
-                                image: compressedImage,
-                                imagePreview: compressedImage,
+                                image: dataUrl,
+                                imagePreview: dataUrl,
                                 imageChanged: true,
+                                originalImageSize: originalSize,
+                                compressedImageSize: compressedSize,
                         }));
                 } catch (error) {
                         console.error("Category image processing failed", error);
-                        toast.error("تعذر ضغط الصورة، يرجى المحاولة بصورة أخرى");
+                        const message =
+                                error?.code === "CATEGORY_IMAGE_TOO_LARGE"
+                                        ? error.message
+                                        : "تعذر ضغط الصورة، يرجى المحاولة بصورة أخرى";
+                        toast.error(message);
                 }
                 event.target.value = "";
         };
@@ -97,6 +107,11 @@ const CategoryManager = () => {
 
                 if (formState.image && (formState.imageChanged || !selectedCategory)) {
                         payload.image = formState.image;
+                        console.log("[Category Payload Image]", {
+                                originalSizeBytes: formState.originalImageSize,
+                                compressedSizeBytes: formState.compressedImageSize,
+                                payloadSource: "compressed-data-url",
+                        });
                 }
 
                 try {
